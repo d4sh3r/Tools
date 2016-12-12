@@ -5,7 +5,7 @@ from threading import *
 from socket import *
 import sys
 import time
-#Programa enfocado a servidores SMTP.
+#Herramienta para Automatizacion de Descubrimiento y Enumeración en servidores SMTP - HADE4SMTP
 #Validar el servicio, enumerar usuarios, verificacion de RELAY
 
 #Funcion que muestra información acerca del autor
