@@ -1,11 +1,10 @@
 #!/bin/python
 #-*-coding:utf-8-*-
 import argparse
-from threading import *
 from socket import *
-import sys
 import time
-#Herramienta para Automatizacion de Descubrimiento y Enumeración en servidores SMTP - HADE4SMTP
+
+#Programa enfocado a servidores SMTP.
 #Validar el servicio, enumerar usuarios, verificacion de RELAY
 
 #Funcion que muestra información acerca del autor
@@ -20,6 +19,7 @@ def autor():
      \/    |__|     \/     \/        \/       
 https://www.linkedin.com/in/d4v1dvc
 '''
+
 #Funcion que escanea los puertos 25 y 465 en busca del servicio SMTP y regresa dos valores, pueto abierto = 0
 def escanear(host,port,r_code=1):
 	try:
@@ -36,7 +36,7 @@ def escanear(host,port,r_code=1):
 		print e
 	return r_code
 	
-
+#funcion que obtiene el dominio para usarlo en check_relay
 def getDominio(banner):
 	dominio = banner.replace("\n","")
 	dominio = dominio.split(" ")[1]
@@ -48,10 +48,7 @@ def getDominio(banner):
 		dominio = ".".join(tmp)
 	return dominio
 
-def look4vulns():
-
-	return True
-
+#Funcion para validar relay pidiendo al usuario correo origen y destino
 def check_relay_manual(host,port):
 	origen=raw_input("\nDireccion de correo origen(ej. hacker@black.hat) : ")
 	destino=raw_input("Direccion de correo destino (ej. mail@domain.com): ")
@@ -81,8 +78,7 @@ def check_relay_manual(host,port):
 		s.close()
 	except Exception as e:
 		print e
-		
-	return True
+
 		
 #Valida que el servidor SMTP tenga configurado open relay
 def check_relay(host,port):
@@ -169,6 +165,7 @@ def check_relay(host,port):
 		
 	return True
 
+#Funcion que obtiene el banner del servidor SMTP
 def getBanner(host,port):
 	b=""
 	try:
@@ -186,7 +183,8 @@ def getBanner(host,port):
 		print e
 
 	return b
-	
+
+#Funcion que valida si un usario existe en el servidor
 def check_user(user,host,port):
 	de = "MAIL FROM:<#>"
 	para = "RCPT TO:<#>"
@@ -238,6 +236,7 @@ def check_user(user,host,port):
 		
 	return True
 
+#Funcion que valida los servicios en los puertos 25 y 465 a traves de la funcion escanear
 def descubrimiento(host):
 	p25 = (1,0)[escanear(host,25)]
 	p465 = (1,0)[escanear(host,465)]
@@ -327,6 +326,7 @@ elif args.servidores_SMTP:#-T
 			print e
 	else:
 		print "Debes especificar almenos otro argumento."	
+		
 elif args.a:
 	autor()
 else:
